@@ -1,0 +1,89 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Get Data from API</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootswatch/3.2.0/sandstone/bootstrap.min.css">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+    <style>
+        body {
+            padding-left: 10px;
+        }
+    </style>
+    <!-- JS -->
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.min.js"></script>
+    <script>
+        var countryApp = angular.module('myApp', []);
+        countryApp.controller('CountryCtrl', function ($scope, $http) {
+            $scope.sortBy = 'name';
+            $scope.sortReverse = false;
+            $scope.searchCountry = '';
+            $http.get('https://restcountries.eu/rest/v1/all').success(function (data) {
+                $scope.countries = data;
+            });
+        });
+    </script>
+</head>
+
+<body ng-app="myApp">
+    <h2 align="center">View, sort and filter JSON data received from API into table</h2>
+    <div class="container" ng-controller="CountryCtrl">
+        <div ng-if="!countries">
+            Loading results...
+        </div>
+        <form>
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-addon"><i class="fa fa-search"></i></div>
+                    <input type="text" class="form-control" placeholder="Global search" ng-model="searchCountry">
+                </div>
+            </div>
+        </form>
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <td>
+                        <a href="#" ng-click="sortBy = 'name'; sortReverse = !sortReverse">
+                            Country
+                            <span ng-show="sortBy == 'name' && !sortReverse" class="fa fa-caret-down"></span>
+                            <span ng-show="sortBy == 'name' && sortReverse" class="fa fa-caret-up"></span>
+                        </a>
+                    </td>
+                    <td>
+                        <a href="#" ng-click="sortBy = 'population'; sortReverse = !sortReverse">
+                            Population
+                            <span ng-show="sortBy == 'population' && !sortReverse" class="fa fa-caret-down"></span>
+                            <span ng-show="sortBy == 'population' && sortReverse" class="fa fa-caret-up"></span>
+                        </a>
+                    </td>
+                    <td>
+                        <a href="#" ng-click="sortBy = 'capital'; sortReverse = !sortReverse">
+                            Capital
+                            <span ng-show="sortBy == 'capital' && !sortReverse" class="fa fa-caret-down"></span>
+                            <span ng-show="sortBy == 'capital' && sortReverse" class="fa fa-caret-up"></span>
+                        </a>
+                    </td>
+                    <td>
+                        <a href="#" ng-click="sortBy = 'region'; sortReverse = !sortReverse">
+                            Region
+                            <span ng-show="sortBy == 'region' && !sortReverse" class="fa fa-caret-down"></span>
+                            <span ng-show="sortBy == 'region' && sortReverse" class="fa fa-caret-up"></span>
+                        </a>
+                    </td>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr ng-repeat="country in countries | orderBy:sortBy:sortReverse | filter:searchCountry">
+                    <td>{{country.name}}</td>
+                    <td>{{country.population}}</td>
+                    <td>{{country.capital}}</td>
+                    <td>{{country.region}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

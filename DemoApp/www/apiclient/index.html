@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+  <head>
+    <meta charset="utf-8">
+    <title>Get Data from API</title>
+    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <style>
+        body { padding-left:50px; }
+    </style>
+
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.min.js"></script>
+    <script>
+      var countryApp = angular.module('myApp', []);
+      countryApp.controller('CountryCtrl', function ($scope, $http){
+        $http.get('https://restcountries.eu/rest/v1/all').success(function(data) {
+          $scope.countries = data;
+        });
+      });
+    </script>
+  </head>
+  
+  <body ng-controller="CountryCtrl">
+	<h2>Show data from API in table</h2>
+	<div ng-if="!countries">
+		Loading results...
+	</div>
+    <table>
+      <tr>
+	<th>Country</th>
+        <th>Population</th>
+	<th>Capital</th>
+	<th>Region</th>
+      </tr>
+      <tr ng-repeat="country in countries">
+	<td>{{country.name}}</td>
+        <td>{{country.population}}</td>
+	<td>{{country.capital}}</td>
+	<td>{{country.region}}</td>
+      </tr>
+    </table>
+  </body>
+</html>
