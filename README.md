@@ -19,11 +19,11 @@ You can see list of all containers with command
   
 To get to container's shell, try
 
-  $ sudo docker exec -i -t 665b4a1e17b6 /bin/bash #by ID
+  $ sudo docker exec -i -t 665b4a1e17b6 /bin/bash #by ID. Replace 665b4a1e17b6 with your container ID.
   
   or
   
-  $ sudo docker exec -i -t loving_heisenberg /bin/bash #by Name
+  $ sudo docker exec -i -t loving_heisenberg /bin/bash #by Name. Replace loving_heisenberg with your container name.
   
   $ root@665b4a1e17b6:/#
 
